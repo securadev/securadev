@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -26,12 +26,12 @@ jobs:
       - name: Deploy to VPS via SSH
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /root/nodetest/nodetest
+            cd /var/www/securadev
             git pull
           EOF
       - name: Send ntfy Notification
         run: |
-          curl -H "Title: 🚀 EZCart Deployment" \
+          curl -H "Title: 🚀 SecuraDev Deployment" \
            -H "Priority: high" \
            -d "✅ Deployment completed successfully with Git pull, PM2 restart, and Nginx reload." \
             https://ntfy.sh/deployment
